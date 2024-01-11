@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define NP 5 // number Process
-
+//presen success
 typedef struct{
     int indexP;
     int startP;
