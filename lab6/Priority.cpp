@@ -37,7 +37,7 @@ void push(int indexP, int LeftTimeBurt){        //เก็บโปรเซส
 }
 void pop(){                   //นำโปรเซสออกจากคิว
     if(SP == 0)
-        printf("UNDER FLOW!!!\n");
+        printf("Remove a process from the queue.\n");
     SP--;
 }
 
