@@ -38,7 +38,7 @@ void push(int indexP) {
 
 void pop() {
     if (SP == 0)
-        printf("UNDER FLOW!!!\n");
+        printf("Remove a process from the queue.\n");
     SP--;
 }
 
@@ -84,7 +84,7 @@ void getData(int indexP, int time_i) {
     NG++;
 }
 
-void SJF_NP() {
+void SJF_NP() { //
     int indexP = 0, ENDPro = 0;
     int tempP[NP], countP = 0;
     for (int i = 0; i <= NT; ++i) {
@@ -144,7 +144,7 @@ void calNT() {
 
 int main() {
     calNT();
-    printf("# Mr afhhahahahaha ID:655555555555555\n");
+    printf("# Kaweewat Kansupattanakuk ID:65543206003-7\n");
     printf("# OUTPUT LAB6 CPU Scheduling\n");
     printf("# SJF Non Preemptive \n");
     printf("Sequence process is :");

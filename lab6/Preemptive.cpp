@@ -35,7 +35,7 @@ void push(int indexP, int LeftTimeBurt){        //เก็บโปรเซส
 }
 void pop(){                   //นำโปรเซสออกจากคิว
     if(SP == 0)
-        printf("UNDER FLOW!!!\n");
+        printf("Remove a process from the queue.\n");
     SP--;
 }
 
@@ -151,7 +151,7 @@ void calNT(){                                               //คำนวณห
 
 int main(){
     calNT();
-   printf("# Kaweewat ID:65543206003-7 \n");
+   printf("# Kaweewat Kansupattanakul ID:65543206003-7 \n");
     printf("# SJF Preemptive \n");
     printf("Sequence process is :");
     SJF_P();

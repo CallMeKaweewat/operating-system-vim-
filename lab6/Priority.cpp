@@ -55,65 +55,65 @@ Queue sortQ(){                //เรียงข้อมูลจากน้
     return Q[SP];
 }
 
-int minPriority(int indexP, int tempP[], int *countP) {  //ในกรณีที่มีโปรเซสเกิดในเวลาเดียวกัน หาค่าโปรเซสที่มีลำดับความสำคัญสูงที่สุด
+int minPriority(int indexP, int tempP[], int *countP) {  
     int minPriority = P[indexP].Priority;
     int minPro = indexP;
     *countP = 0;
     for (int i = 1; i <= NP; ++i)
         if (P[indexP].ArrivalT == P[i].ArrivalT) {
-            tempP[*countP] = i;                     //เก็บโปรเซสที่เกิดในเวลาเดียวกัน
-            *countP+=1;                             //จำนวนโปรเซสที่เกิดในเวลาเดียวกัน
+            tempP[*countP] = i;                     
+            *countP+=1;                             
             if(P[i].Priority < minPriority ){
                 minPriority = P[i].Priority;
                 minPro = i;
             }
         }
-    return minPro;                                  //โปรเซสที่มีลำดับความสำคัญสูงที่สุด
+    return minPro;                                  
 }
 
-void pushSynchronous(int indexP, int tempP[], int countP) {//เก็บโปรเซสที่เกิดพร้อมกันไว้ในคิว(ในเวลาเดียวกัน)
+void pushSynchronous(int indexP, int tempP[], int countP) {
     for (int i = 0; i < countP ; ++i)
-        if(tempP[i] != indexP )                            //ยกเว้นโปรเซสที่มีลำดับความสำคัญสูงที่สุด
+        if(tempP[i] != indexP )                            
             push(tempP[i],P[tempP[i]].BurtT);
 }
 
 void getData(int indexP, int time_i){
-    Gantt[NG].indexP = indexP;          //เก็บโปรเซสเพื่อทำ GanttChart
-    Gantt[NG].startP = time_i;          //เก็บเวลาเริ่มทำงานโปรเซสเพื่อทำ GanttChart
+    Gantt[NG].indexP = indexP;         
+    Gantt[NG].startP = time_i;          
     NG++;
 }
 
 void P_Priority(){
     int indexP = 0, ENDPro = 0, runningP = 0;
     int tempP[NP], countP = 0;
-    for (int i = 0; i <= NT; ++i) {              //i แทนเวลา (Time)
+    for (int i = 0; i <= NT; ++i) {              
         for (int j = 1; j <= NP; ++j) {
-            if(i == P[j].ArrivalT){              //ณ เวลาที่ i มีโปรเซส 1 2 3 ...N เกิดขึ้นใหม่
+            if(i == P[j].ArrivalT){              
                 indexP = minPriority(j,tempP,&countP);
-                if(i >= ENDPro){      //ณ เวลาที่ i ถ้าไม่มีโปรเซสลกำลังทำงาน(ไม่มีการใช้ทรัพยากร)
-                    pushSynchronous(indexP,tempP,countP);//ถ้ามีโปรเซสเกิดขึ้นพร้อกัน(ในเวลาเดียวกัน)
-                    ENDPro = i + P[indexP].BurtT;//เวลาที่โปรเซสจะจบการทำงาน
-                    runningP = indexP;           //โปรเซสที่กำลังทำงาน
-                    getData(indexP,i);           //เก็บข้อมูลโปรเซส
-                }else{                           //ณ เวลาที่ i ถ้ามีโปรเซสลกำลังทำงาน(มีการใช้ทรัพยากร) หรือ มีโปรเซสออยู่ในคิว
-                    if(P[indexP].Priority < (P[runningP].Priority) && i < ENDPro){//ให้เช็คว่าโปรเซสที่เกิดใหม่มีลำดับความสำคัญสูงกว่า โปรเซสที่กำลังทำงานใช่หรือไม่
+                if(i >= ENDPro){      
+                    pushSynchronous(indexP,tempP,countP);
+                    ENDPro = i + P[indexP].BurtT;
+                    runningP = indexP;           
+                    getData(indexP,i);           
+                }else{                           
+                    if(P[indexP].Priority < (P[runningP].Priority) && i < ENDPro){
                         pushSynchronous(indexP,tempP,countP);
-                        push(runningP, (P[runningP].BurtT - i));  //เก็บโปรเซสที่กำลังทำงานไว้ในคิว และเวลาทำงานที่เหลือ
+                        push(runningP, (P[runningP].BurtT - i));  
                         ENDPro = i + P[indexP].BurtT;
-                        runningP = indexP;                      //โปรเซสเกิดใหม่ที่มีลำดับความสำคัญสูงกว่า เริ่มทำงาน
+                        runningP = indexP;                      
                         getData(indexP, i);
                     }else {
-                        push(indexP, P[indexP].BurtT);//เก็บค่าโปรเซสที่เกิดใหม่ ณ เวลาที่ i ไว้ในคิว
+                        push(indexP, P[indexP].BurtT);
                         pushSynchronous(indexP, tempP, countP);
                     }
                 }
                 break;
             }
         }
-        if (i >= ENDPro && SP != 0) {            //ณ เวลาที่ i ถ้าไม่มีโปรเซสไหนทำงาน(ทรัพยากรว่าง) แต่ ยังมีโปรเซสเหลืออยู่ในคิว
+        if (i >= ENDPro && SP != 0) {            
             Queue indexPQ;
-            indexPQ = sortQ();                    //เรียงโปรเซสในคิว โดยดูจากโปรเซสที่มีลำดับความสำคัญสูงที่สุด
-            pop();                               //นำโปรเซสออกจากคิว
+            indexPQ = sortQ();                    
+            pop();                               
             ENDPro = i + indexPQ.BurtT;
             runningP = indexPQ.indexP;
             getData(indexPQ.indexP,i);
@@ -153,7 +153,7 @@ void calNT(){                                               //คำนวณห
 
 int main(){
     calNT();
-     printf("# Kaweewat ID:65543206003-7\n");
+     printf("# Kaweewat Kansupattanakul 65543206003-7\n");
     printf("# OUTPUT LAB6 CPU Scheduling\n");
     printf("# Priority (SJF Preemptive) \n");
     printf("Sequence process is :");
