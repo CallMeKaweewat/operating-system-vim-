@@ -27,6 +27,7 @@ void availSum(int i){
         AvailSUM[j] = Available[i][j];
     }
 }
+
 void Banker(){
     int Level = 0;
     for (int round = 1;returnResources == 1; ++round) {
