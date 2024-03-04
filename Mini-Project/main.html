@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concert Ticket Sales</title>
+</head>
+<body>
+  <h1>Concert Ticket Sales</h1>
+  
+  <!-- Form for Ticket Purchase -->
+  <form action="/purchase" method="post">
+    <label for="ticketType">Ticket Type:</label>
+    <select name="ticketType" id="ticketType">
+      <option value="regular">Regular</option>
+      <option value="vip">VIP</option>
+    </select>
+    
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" id="quantity" min="1" required>
+    
+    <button type="submit">Buy Tickets</button>
+  </form>
+</body>
+</html>
